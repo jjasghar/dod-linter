@@ -9,6 +9,7 @@ from lib.name_checks import NameChecks
 from lib.registration_checks import RegistrationChecks
 from lib.cfp_checks import CFPChecks
 from lib.organizer_checks import OrganizerChecks
+from lib.version import get_version
 from pathlib import Path
 import argparse
 import tomllib
@@ -16,13 +17,12 @@ import tomllib
 error_details = []
 warning_details = []
 
+with open('config.toml', 'rb') as t:
+    data = tomllib.load(t)
+
+dod_path = data['dod']['dod_path']
 
 def main(file, all_files, error_flag, warning_flag):
-
-    with open('config.toml', 'rb') as t:
-        data = tomllib.load(t)
-
-    dod_path = data['dod']['dod_path']
 
     if all_files:
         files = [f for f in os.listdir(f'{Path.home()}/{dod_path}/data/events') if re.match('202[3-4]+.*\.yml', f)]
@@ -105,14 +105,16 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-a', '--all', action="store_true", help="Run against \
-                        all the files in devopsdays-web/data/events")
+    parser.add_argument('-a', '--all', action="store_true", help=f"Run against \
+                        all the files in {Path.home()}/{dod_path}/data/events.")
     parser.add_argument('-d', '--debug', action="store_true", help="Output the \
-                       debug details to debug.log")
+                       debug details to debug.log.")
     parser.add_argument('-e', '--errors', action="store_false", help="Suppress \
                         found errors.")
     parser.add_argument('-f', '--file', help="Run linter against one file \
-                        specificly, example: 2024-nova-lima.yml")
+                        specificly, example: 2024-nova-lima.yml.")
+    parser.add_argument('-v', '--version', action="store_true", help="Display \
+                        version of linter.")
     parser.add_argument('-w', '--warnings', action="store_true", help="Output \
                         found warnings.")
 
@@ -122,7 +124,12 @@ if __name__ == "__main__":
     all_files = args.all
     debug = args.debug
     error_flag = args.errors
+    version_flag = args.version
     warning_flag = args.warnings
+
+    if version_flag:
+        print(get_version())
+        exit(0)
 
     if target_file is None and all_files is False:
         raise argparse.ArgumentError(target_file, "Error: You need to give a file or -a")
