@@ -1,5 +1,4 @@
 [dod]
-dod_year=2023
-dod_city="new-york-city"
-# Do not put the ~ in this (home needs to be expanded by python)
+# Do NOT put the ~ in this (home needs to be expanded by python)
+# This should be relitive to your home directory
 dod_path="src/github.com/devopsdays/devopsdays-web"

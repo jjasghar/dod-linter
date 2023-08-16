@@ -22,8 +22,6 @@ def main(file, all_files, error_flag, warning_flag):
     with open('config.toml', 'rb') as t:
         data = tomllib.load(t)
 
-    dod_year = data['dod']['dod_year']
-    dod_city = data['dod']['dod_city']
     dod_path = data['dod']['dod_path']
 
     if all_files:

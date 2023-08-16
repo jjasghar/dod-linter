@@ -9,21 +9,31 @@ have some expected standardizations for the yamls.
 
 ## Usage
 
+
 1. Have a `venv` python environment working
 ```bash
 git clone git@github.com:jjasghar/dod-linter.git
 cd dod-linter/
 python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
 ```
-2. Checkout the [devopsdays-web][web] repo.
-```bash
-git clone git@github.com:devopsdays/devopsdays-web.git
+
+2. Set up the `dod_path` in the `config.toml`, this is where you have the `devopsdays-web`
+repository checked out.
+Note:
 ```
+# Do NOT put the ~ in this (home needs to be expanded by python)
+# This should be relitive to your home directory
+```
+
 3. Example Run the main script
 ```bash
 python main.py -a # for all
 python main.py -f 2023-austin.yml # for a specific one
+```
+
+4. Check the other options via:
+```bash
+python main.py -h
 ```
 
 ## Checks
