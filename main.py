@@ -9,16 +9,25 @@ from lib.name_checks import NameChecks
 from lib.registration_checks import RegistrationChecks
 from lib.cfp_checks import CFPChecks
 from lib.organizer_checks import OrganizerChecks
+from pathlib import Path
 import argparse
-
+import tomllib
 
 error_details = []
 warning_details = []
 
 
 def main(file, all_files, error_flag, warning_flag):
+
+    with open('config.toml', 'rb') as t:
+        data = tomllib.load(t)
+
+    dod_year = data['dod']['dod_year']
+    dod_city = data['dod']['dod_city']
+    dod_path = data['dod']['dod_path']
+
     if all_files:
-        files = [f for f in os.listdir('devopsdays-web/data/events') if re.match('202[3-4]+.*\.yml', f)]
+        files = [f for f in os.listdir(f'{Path.home()}/{dod_path}/data/events') if re.match('202[3-4]+.*\.yml', f)]
     else:
         files = []
         files.append(file)
@@ -32,7 +41,7 @@ def main(file, all_files, error_flag, warning_flag):
         logging.debug("-----------")
 
     for file in files:
-        with open(f'devopsdays-web/data/events/{file}', "r") as stream:
+        with open(f'{Path.home()}/{dod_path}/data/events/{file}', "r") as stream:
             try:
 
                 yaml_file = yaml.safe_load(stream)

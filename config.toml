@@ -1,0 +1,5 @@
+[dod]
+dod_year=2023
+dod_city="new-york-city"
+# Do not put the ~ in this (home needs to be expanded by python)
+dod_path="src/github.com/devopsdays/devopsdays-web"
